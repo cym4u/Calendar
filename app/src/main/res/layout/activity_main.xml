@@ -3,47 +3,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
+    android:gravity="center_vertical"
     tools:context="info.enjoycode.calendar.MainActivity">
 
     <LinearLayout
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
         <Button
+            android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
-            android:id="@+id/minus"/>
+            android:text="-" />
+
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2016年3月"/>
+            android:text="2016年3月" />
+
         <Button
+            android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"
-            android:id="@+id/add"/>
+            android:text="+" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期显示行数："/>
+        <RadioGroup
 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <RadioButton
+                android:id="@+id/singleRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示第一行" />
 
-    <info.enjoycode.calendar.view.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:numColumns="7"
-        android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/allRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="显示所有行" />
+        </RadioGroup>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/changeMode"
+    <LinearLayout
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="change mode"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期显示样式："/>
+        <RadioGroup
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/currentMonthOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="只显示当月" />
+
+            <RadioButton
+                android:id="@+id/allDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="显示所有日期" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题显示样式："/>
+        <RadioGroup
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/withTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="显示标题" />
+
+            <RadioButton
+                android:id="@+id/noTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="隐藏标题" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <!--<info.enjoycode.calendar.view.CalendarView-->
+    <!--android:id="@+id/calendarView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:numColumns="7"-->
+    <!--android:layout_height="wrap_content"/>-->
+
 </LinearLayout>

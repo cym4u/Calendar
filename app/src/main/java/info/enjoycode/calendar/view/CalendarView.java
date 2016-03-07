@@ -2,6 +2,7 @@ package info.enjoycode.calendar.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,76 +16,146 @@ import org.joda.time.DateTime;
 /**
  * Created by chenyuanming on 16/3/3.
  */
-public class CalendarView  extends GridView{
+public class CalendarView extends GridView {
     private static final String TAG = "CalendarView";
-    CalendarShowMode showMode = CalendarShowMode.ALL;
+    /**
+     * 显示模式：单行|全部
+     */
+    RowsShowMode rowsShowMode = RowsShowMode.ALL;
+    /**
+     * 显示模式：单行|全部
+     */
+    MonthShowMode monthShowMode = MonthShowMode.ALL;
+    /**
+     * 显示模式：单行|全部
+     */
+    TitleShowMode titleShowMode = TitleShowMode.YES;
+    /**
+     * 当前时间
+     */
+    DateTime dateTime = DateTime.now();
+
+    CalendarAdapter adapter;
+    String[] weekTitles = {"日", "一", "二", "三", "四", "五", "六"};
     public CalendarView(Context context) {
         super(context);
-        initView(context,null);
+        initView(context, null);
     }
 
     public CalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView(context,attrs);
+        initView(context, attrs);
     }
 
     public CalendarView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView(context,attrs);
+        initView(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CalendarView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initView(context,attrs);
+        initView(context, attrs);
     }
-    CalendarAdapter adapter;
+
+
     private void initView(Context context, AttributeSet attrs) {
 
         adapter = new CalendarAdapter();
         setAdapter(adapter);
     }
 
-    public void setShowMode(CalendarShowMode showMode) {
-        adapter.setShowMode(showMode);
+    public void setRowsShowMode(RowsShowMode rowsShowMode) {
+        this.rowsShowMode = rowsShowMode;
+        adapter.caculateItemCount();
     }
 
-    String []weekTitles = {"日","一","二","三","四","五","六"};
-
-    public void setDateTime(DateTime dateTime){
-        adapter.setDateTime(dateTime);
+    public void setMonthShowMode(MonthShowMode monthShowMode) {
+        this.monthShowMode = monthShowMode;
+        adapter.caculateItemCount();
     }
 
-    public class CalendarAdapter extends BaseAdapter{
+    public void setTitleShowMode(TitleShowMode titleShowMode) {
+        this.titleShowMode = titleShowMode;
+        adapter.caculateItemCount();
+    }
+
+
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public DateTime getDateTime() {
+        return dateTime;
+    }
+
+
+    public class CalendarAdapter extends BaseAdapter {
 
         int itemCount;
-        int firstIndex ;
+        int firstIndex;
         DateTime firstDay;
-        CalendarShowMode showMode = CalendarShowMode.ALL;
-        public CalendarAdapter(){
+        DateTime dateTimes[];
+
+        public CalendarAdapter() {
             DateTime dateTime = DateTime.now();
-           setDateTime(dateTime);
+            setDateTime(dateTime);
         }
 
         public void setDateTime(DateTime dateTime) {
-            firstDay = dateTime.withDate(dateTime.getYear(),dateTime.getMonthOfYear(),1);
+            firstDay = dateTime.withDate(dateTime.getYear(), dateTime.getMonthOfYear(), 1);
 
-            firstIndex = firstDay.getDayOfWeek()%7;
-            setItemCount();
+            firstIndex = firstDay.getDayOfWeek() % 7;
+            caculateItemCount();
         }
 
-        public void setShowMode(CalendarShowMode showMode){
-            this.showMode = showMode;
-            setItemCount();
-        }
+        int titleItemCount, firstDayBefore, dayOfMonth, lastDayAfter, detailItemCount;
 
-        private void setItemCount() {
-            if(showMode== CalendarShowMode.ALL){
-                itemCount  = 7+firstDay.getDayOfWeek()%7+firstDay.dayOfMonth().getMaximumValue();
-            }else{
-                itemCount = 14;
+
+        private void caculateItemCount() {
+            titleItemCount = titleShowMode == TitleShowMode.YES ? 7 : 0;
+
+            if (rowsShowMode == RowsShowMode.ALL) {
+                //1号前面的空位
+                firstDayBefore = firstDay.getDayOfWeek() % 7;
+                //最后一天后面的空位数
+                lastDayAfter = 7 - firstDay.dayOfMonth().withMaximumValue().getDayOfWeek() % 7 - 1;
+                //当月显示的天数
+                dayOfMonth = firstDay.dayOfMonth().withMaximumValue().getDayOfMonth();
+            } else {
+                detailItemCount = 7;
+                //1号前面的空位
+                firstDayBefore = firstDay.getDayOfWeek() % 7;
+                //最后一天后面的空位数
+                dayOfMonth = 7 - firstDayBefore;
+                //当月显示的天数
+                lastDayAfter = 0;
+
             }
+            detailItemCount = firstDayBefore + dayOfMonth + lastDayAfter;
+            itemCount = titleItemCount + detailItemCount;
+
+            initDateDatas();
+
             notifyDataSetChanged();
+        }
+
+
+        private void initDateDatas() {
+            dateTimes = new DateTime[detailItemCount];
+            int index = 0;
+            for (int dayBefore = firstDayBefore; dayBefore > 0; dayBefore--, index++) {
+                dateTimes[index] = firstDay.minusDays(dayBefore);
+            }
+
+            for (int i = 0; i < dayOfMonth; i++, index++) {
+                dateTimes[index] = firstDay.plusDays(i);
+            }
+
+            for (int i = 0; i < lastDayAfter; i++, index++) {
+                dateTimes[index] = firstDay.dayOfMonth().withMaximumValue().plusDays(1).plusDays(i);
+            }
+
         }
 
         @Override
@@ -105,20 +176,49 @@ public class CalendarView  extends GridView{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
             String text = "";
-            if(position<7){
-                text = weekTitles[position];
-            }else{
-                int day = (position-7)-firstIndex+1;
-                text = day<=0?"  ":String.format("%2d ",day);
+            if (convertView == null || !(convertView instanceof TextView)) {
+                convertView = new TextView(getContext());
             }
-            TextView tv = new TextView(getContext());
+
+            TextView tv = (TextView) convertView;
+            tv.setVisibility(View.VISIBLE);
+            if (position < titleItemCount) {
+                text = weekTitles[position];
+                tv.setTextColor(Color.GREEN);
+            } else {
+                DateTime currentDateTime = dateTimes[position - titleItemCount];
+                if (currentDateTime.isBefore(firstDay) || currentDateTime.isAfter(firstDay.dayOfMonth().withMaximumValue())) {
+                    if (monthShowMode == MonthShowMode.CURRENT_MONTH_ONLY) {
+                        tv.setVisibility(View.GONE);
+                    }
+                    tv.setTextColor(Color.GRAY);
+
+                } else {
+                    tv.setTextColor(Color.BLUE);
+                }
+                text = String.format("%2d", currentDateTime.getDayOfMonth());
+            }
             tv.setText(text);
+
+
             return tv;
         }
     }
 
-    public enum CalendarShowMode{
-        ALL,SINGLE_ROW;
+    public enum RowsShowMode {
+        ALL, SINGLE_ROW
     }
+
+    public enum MonthShowMode {
+        ALL, CURRENT_MONTH_ONLY
+    }
+
+    public enum TitleShowMode {
+        YES, NO
+    }
+
+
+
 }
