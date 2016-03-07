@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
  */
 public class CalendarView  extends GridView{
     private static final String TAG = "CalendarView";
+    CalendarShowMode showMode = CalendarShowMode.ALL;
     public CalendarView(Context context) {
         super(context);
         initView(context,null);
@@ -43,6 +44,11 @@ public class CalendarView  extends GridView{
         adapter = new CalendarAdapter();
         setAdapter(adapter);
     }
+
+    public void setShowMode(CalendarShowMode showMode) {
+        adapter.setShowMode(showMode);
+    }
+
     String []weekTitles = {"日","一","二","三","四","五","六"};
 
     public void setDateTime(DateTime dateTime){
@@ -53,18 +59,31 @@ public class CalendarView  extends GridView{
 
         int itemCount;
         int firstIndex ;
+        DateTime firstDay;
+        CalendarShowMode showMode = CalendarShowMode.ALL;
         public CalendarAdapter(){
             DateTime dateTime = DateTime.now();
            setDateTime(dateTime);
         }
 
         public void setDateTime(DateTime dateTime) {
-            DateTime firstDay = dateTime.withDate(dateTime.getYear(),dateTime.getMonthOfYear(),1);
-
-
+            firstDay = dateTime.withDate(dateTime.getYear(),dateTime.getMonthOfYear(),1);
 
             firstIndex = firstDay.getDayOfWeek()%7;
-            itemCount  = 7+firstDay.getDayOfWeek()%7+firstDay.dayOfMonth().getMaximumValue();
+            setItemCount();
+        }
+
+        public void setShowMode(CalendarShowMode showMode){
+            this.showMode = showMode;
+            setItemCount();
+        }
+
+        private void setItemCount() {
+            if(showMode== CalendarShowMode.ALL){
+                itemCount  = 7+firstDay.getDayOfWeek()%7+firstDay.dayOfMonth().getMaximumValue();
+            }else{
+                itemCount = 14;
+            }
             notifyDataSetChanged();
         }
 
@@ -97,5 +116,9 @@ public class CalendarView  extends GridView{
             tv.setText(text);
             return tv;
         }
+    }
+
+    public enum CalendarShowMode{
+        ALL,SINGLE_ROW;
     }
 }
