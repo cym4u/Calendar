@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.enjoycode.calendar.view.CalendarView;
+import info.enjoycode.calendar.view.BaseCalendarViewAdapter.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DateTime dateTime = DateTime.now();
@@ -138,32 +139,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.allDateTime://显示所有天的时间，包括上月或者下月
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setMonthShowMode(CalendarView.MonthShowMode.ALL);
+                    viewContainter.get(i).setMonthShowMode(MonthShowMode.ALL);
                 }
                 break;
             case R.id.currentMonthOnly:
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setMonthShowMode(CalendarView.MonthShowMode.CURRENT_MONTH_ONLY);
+                    viewContainter.get(i).setMonthShowMode(MonthShowMode.CURRENT_MONTH_ONLY);
                 }
                 break;
             case R.id.allRow:
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setRowsShowMode(CalendarView.RowsShowMode.ALL);
+                    viewContainter.get(i).setRowsShowMode(RowsShowMode.ALL);
                 }
                 break;
             case R.id.singleRow:
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setRowsShowMode(CalendarView.RowsShowMode.SINGLE_ROW);
+                    viewContainter.get(i).setRowsShowMode(RowsShowMode.SINGLE_ROW);
                 }
                 break;
             case R.id.withTitle:
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setTitleShowMode(CalendarView.TitleShowMode.YES);
+                    viewContainter.get(i).setTitleShowMode(TitleShowMode.YES);
                 }
                 break;
             case R.id.noTitle:
                 for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setTitleShowMode(CalendarView.TitleShowMode.NO);
+                    viewContainter.get(i).setTitleShowMode(TitleShowMode.NO);
                 }
                 break;
         }
