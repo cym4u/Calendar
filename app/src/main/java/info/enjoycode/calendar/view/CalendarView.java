@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import org.joda.time.DateTime;
 
-import info.enjoycode.calendar.view.BaseCalendarViewAdapter.MonthShowMode;
 import info.enjoycode.calendar.view.BaseCalendarViewAdapter.RowsShowMode;
 import info.enjoycode.calendar.view.BaseCalendarViewAdapter.TitleShowMode;
 
@@ -97,11 +96,6 @@ public class CalendarView extends GridView {
         }
     }
 
-    public void setMonthShowMode(MonthShowMode monthShowMode) {
-        if (adapter != null) {
-            adapter.setMonthShowMode(monthShowMode);
-        }
-    }
 
     public void setTitleShowMode(TitleShowMode titleShowMode) {
         if (adapter != null) {

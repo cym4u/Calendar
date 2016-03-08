@@ -24,11 +24,7 @@ public abstract  class BaseCalendarViewAdapter extends BaseAdapter {
      */
     RowsShowMode rowsShowMode = RowsShowMode.ALL;
     /**
-     * 显示模式：单行|全部
-     */
-    MonthShowMode monthShowMode = MonthShowMode.ALL;
-    /**
-     * 显示模式：单行|全部
+     * 显示模式：显示标题，隐藏标题
      */
     TitleShowMode titleShowMode = TitleShowMode.YES;
     public BaseCalendarViewAdapter(Context context,DateTime dateTime) {
@@ -47,11 +43,6 @@ public abstract  class BaseCalendarViewAdapter extends BaseAdapter {
 
     public void setTitleShowMode(TitleShowMode titleShowMode) {
         this.titleShowMode = titleShowMode;
-        caculateItemCount();
-    }
-
-    public void setMonthShowMode(MonthShowMode monthShowMode) {
-        this.monthShowMode = monthShowMode;
         caculateItemCount();
     }
 
@@ -160,9 +151,6 @@ public abstract  class BaseCalendarViewAdapter extends BaseAdapter {
         ALL, SINGLE_ROW
     }
 
-    public enum MonthShowMode {
-        ALL, CURRENT_MONTH_ONLY
-    }
 
     public enum TitleShowMode {
         YES, NO

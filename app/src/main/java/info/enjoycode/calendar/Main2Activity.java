@@ -30,7 +30,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         calendarView = $(R.id.calendarView);
         $(R.id.changeMode).setOnClickListener(this);
         $(R.id.viewPagerDemo).setOnClickListener(this);
-        calendarView.setMonthShowMode(BaseCalendarViewAdapter.MonthShowMode.CURRENT_MONTH_ONLY);
         calendarView.setRowsShowMode(rowsShowMode);
         calendarView.setTitleShowMode(BaseCalendarViewAdapter.TitleShowMode.YES);
 
@@ -53,6 +52,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     tv.setTextColor(Color.BLUE);
                 }else{
                     tv.setTextColor(Color.GRAY);
+                    tv.setVisibility(View.GONE);
                 }
                 tv.setTextSize(20);
                 tv.setOnClickListener(new View.OnClickListener() {

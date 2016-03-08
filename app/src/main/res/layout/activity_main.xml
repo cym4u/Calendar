@@ -66,36 +66,7 @@
         </RadioGroup>
     </LinearLayout>
 
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="日期显示样式："/>
-        <RadioGroup
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/currentMonthOnly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="只显示当月" />
-
-            <RadioButton
-                android:id="@+id/allDateTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="显示所有日期" />
-        </RadioGroup>
-    </LinearLayout>
 
     <LinearLayout
         android:gravity="center_vertical"

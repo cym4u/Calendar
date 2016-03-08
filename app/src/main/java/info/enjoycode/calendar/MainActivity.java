@@ -47,10 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setListeners() {
         findViewById(R.id.add).setOnClickListener(this);
         findViewById(R.id.minus).setOnClickListener(this);
-        findViewById(R.id.allDateTime).setOnClickListener(this);
         findViewById(R.id.allRow).setOnClickListener(this);
         findViewById(R.id.withTitle).setOnClickListener(this);
-        findViewById(R.id.currentMonthOnly).setOnClickListener(this);
         findViewById(R.id.singleRow).setOnClickListener(this);
         findViewById(R.id.noTitle).setOnClickListener(this);
     }
@@ -136,16 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.minus:
                 viewPager.setCurrentItem((viewPager.getCurrentItem() - 1) % maxCount);
-                break;
-            case R.id.allDateTime://显示所有天的时间，包括上月或者下月
-                for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setMonthShowMode(MonthShowMode.ALL);
-                }
-                break;
-            case R.id.currentMonthOnly:
-                for (int i = 0; i < maxCount; i++) {
-                    viewContainter.get(i).setMonthShowMode(MonthShowMode.CURRENT_MONTH_ONLY);
-                }
                 break;
             case R.id.allRow:
                 for (int i = 0; i < maxCount; i++) {
